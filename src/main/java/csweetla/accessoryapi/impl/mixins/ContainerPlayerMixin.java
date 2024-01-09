@@ -8,7 +8,6 @@ import net.minecraft.core.player.inventory.slot.Slot;
 import net.minecraft.core.player.inventory.slot.SlotArmor;
 import net.minecraft.core.player.inventory.slot.SlotCrafting;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -18,9 +17,6 @@ import csweetla.accessoryapi.impl.AccessorySlot;
 
 @Mixin(value = ContainerPlayer.class, remap = false)
 public abstract class ContainerPlayerMixin extends Container {
-
-	@Shadow
-	public InventoryPlayer playerInv;
 
 	@Redirect(method="<init>(Lnet/minecraft/core/player/inventory/InventoryPlayer;Z)V", at=@At(value = "INVOKE", target = "Lnet/minecraft/core/player/inventory/ContainerPlayer;addSlot(Lnet/minecraft/core/player/inventory/slot/Slot;)V"))
 	private void changeTopSlotPositions(ContainerPlayer instance, Slot slot) {
@@ -42,7 +38,7 @@ public abstract class ContainerPlayerMixin extends Container {
 			slot.xDisplayPosition += 37;
 		}
 
-		((Container) instance).addSlot(slot);
+		instance.addSlot(slot);
 	}
 
 	// add all custom accessory slots

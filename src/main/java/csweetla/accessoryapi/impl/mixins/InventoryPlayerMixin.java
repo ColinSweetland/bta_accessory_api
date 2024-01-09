@@ -42,16 +42,11 @@ public abstract class InventoryPlayerMixin implements IInventory {
 	// call accessory added on player loaded
 	@Inject(method = "readFromNBT", at = @At("TAIL"))
 	public void activateAccessories(ListTag tags, CallbackInfo ci) {
-		for (int slot_num = 0; slot_num < this.armorInventory.length; slot_num++) {
-			int armor_pos = slot_num - this.mainInventory.length;
-			ItemStack item = this.armorInventory[slot_num];
-
-			if (item != null) {
-				if (item.getItem() instanceof Accessory) {
-					((Accessory) item.getItem()).onAccessoryAdded(this.player, item);
-				}
-			}
-		}
+        for (ItemStack item : this.armorInventory) {
+            if (item != null && item.getItem() instanceof Accessory) {
+				((Accessory) item.getItem()).onAccessoryAdded(this.player, item);
+            }
+        }
 	}
 
 	// call accessory added/removed
