@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "csweetla.accessoryapi.impl.mixins",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "ContainerPlayerMixin",
+    "EntityPlayerMixin",
+    "InventoryPlayerMixin"
+  ],
+  "client": [
+    "GuiInventoryMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
