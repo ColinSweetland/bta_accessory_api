@@ -9,7 +9,8 @@
     "InventoryPlayerMixin"
   ],
   "client": [
-    "GuiInventoryMixin"
+    "GuiInventoryMixin",
+    "GuiInventoryCreativeMixin"
   ],
   "injectors": {
     "defaultRequire": 1
