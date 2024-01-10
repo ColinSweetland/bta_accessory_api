@@ -10,5 +10,5 @@ public interface AccessoryApiEntrypoint {
 	 *              Every mod who implements this interface gets to edit before the game runs
 	 * TODO: better way to do this?
 	 */
-	void onInitialize(List<String> slotKeys);
+	public void onInitialize(List<String> slotKeys);
 }

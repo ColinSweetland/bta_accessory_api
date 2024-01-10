@@ -22,14 +22,10 @@ public class AccessoryApiMain implements ModInitializer {
 		accessorySlotKeys = new ArrayList<>();
 
 		// CREDIT: useless's terrain api
-		FabricLoader.getInstance().getEntrypoints(MOD_ID, AccessoryApiEntrypoint.class).forEach(api -> {
-			// Make sure the method is implemented
-			try {
-				api.getClass().getDeclaredMethod("onInitialize");
-				api.onInitialize(accessorySlotKeys);
-			} catch (NoSuchMethodException ignored) {
-			}
-
+		FabricLoader.getInstance().getEntrypoints("accessory-api", AccessoryApiEntrypoint.class).forEach(api -> {
+			// useless was using getDeclaredMethod, but I was having an error with that.
+			// I don't see why I wouldn't just call the method.
+			api.onInitialize(accessorySlotKeys);
 		});
 
 		// throw error, because theirs no way to display > 8 accessory slots in a non-broken way, currently
@@ -37,6 +33,6 @@ public class AccessoryApiMain implements ModInitializer {
 			throw new RuntimeException("Accessory API can't handle more than 8 accessory slots in the current version");
 		}
 
-		LOGGER.info("AccessoryApiMain initialized.");
+		LOGGER.info("AccessoryApi was initialized.");
     }
 }
