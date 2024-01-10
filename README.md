@@ -53,9 +53,9 @@ public class PointlessRing extends Item implements Accessory {
 There is also a 'TickableWhileWorn' interface, for Accessories which receive ticks while worn.
 
 ## Issues
-   
-1. Creative Inventory is broken
-2. Everything is hardcoded to be similar to a famous b1.7.3 sky mod
-3. Only up to 8 slots are supported
-4. The point the player 'doll' faces is slightly off from the cursor
-5. It's not actually easy for mods to be compatible using this library
+
+1. The UI is hardcoded to be similar to a famous b1.7.3 sky mod
+2. Only up to 8 slots are supported
+3. Api isn't actually that nice for modders!
+4. Don't support custom renderers like the original library
+5. Could probably support more 'hooks' for accessories
