@@ -23,6 +23,9 @@ public abstract class GuiInventoryMixin extends GuiContainer {
 	@Shadow
 	private GuiButton armorButton;
 
+	@Shadow
+	protected float xSize_lo;
+
 	@Unique
 	private static final int INV_U = 0, INV_V = 0, INV_W = 154, INV_H = 72;
 
@@ -34,12 +37,6 @@ public abstract class GuiInventoryMixin extends GuiContainer {
 
 	@Unique
 	private static final int CORNER_INSET = 7;
-
-	@Unique
-	int wpx = 0;
-
-	@Unique
-	int mouseX = 0;
 
 	public GuiInventoryMixin(Container container) {
 		super(container);
@@ -82,17 +79,6 @@ public abstract class GuiInventoryMixin extends GuiContainer {
 
 	}
 
-	@Inject(method = "drawScreen", at=@At("HEAD"))
-	public void drawScreenButCaptureMouseX(int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
-		this.mouseX = mouseX;
-	}
-
-	@Redirect(method = "drawGuiContainerBackgroundLayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiInventory;drawTexturedModalRect(IIIIII)V"))
-	public void blitButCaptureWindowPos(GuiInventory instance, int i, int j, int k, int l, int m, int n) {
-		drawTexturedModalRect(i, j, k, l, m, n);
-		wpx = i; // window pos x
-	}
-
 	// move the player 'doll' over to the left some
 	@Redirect(method = "drawGuiContainerBackgroundLayer", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/GL11;glTranslatef(FFF)V",ordinal = 0))
 	public void translatePlayerModel(float x, float y, float z) {
@@ -100,11 +86,10 @@ public abstract class GuiInventoryMixin extends GuiContainer {
 	}
 
 	// make the player model face correctly given the new shift
-	@Redirect(method = "drawGuiContainerBackgroundLayer", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/player/EntityPlayerSP;renderYawOffset:F", opcode = Opcodes.PUTFIELD, ordinal = 0))
+	@Redirect(method = "drawGuiContainerBackgroundLayer", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/player/EntityPlayerSP;yRot:F", opcode = Opcodes.PUTFIELD, ordinal = 0))
 	private void fixPlayerModelYaw(EntityPlayerSP instance, float yaw) {
-		// TODO: fix this it's slightly off idk the problem
-		float var9 = (float) (wpx + 33) - mouseX;
-        instance.renderYawOffset = (float) Math.atan(var9 / 40.0F) * 40.0F;
+		int startX = (width - xSize) / 2;
+		instance.yRot = (float) Math.atan((startX + 33 - this.xSize_lo) / 40.0F) * 40.0F;
 	}
 
 	// don't draw the inventory text
