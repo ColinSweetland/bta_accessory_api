@@ -15,6 +15,7 @@ public class AccessoryApiMain implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	public static List<String> accessorySlotKeys;
+	public static boolean aether_loaded;
 
     @Override
     public void onInitialize() {
@@ -33,6 +34,9 @@ public class AccessoryApiMain implements ModInitializer {
 			throw new RuntimeException("Accessory API can't handle more than 8 accessory slots in the current version");
 		}
 
+		aether_loaded = FabricLoader.getInstance().isModLoaded("aether");
+
+		LOGGER.info("AETHER LOADED: " + (aether_loaded ? "TRUE" : "FALSE"));
 		LOGGER.info("AccessoryApi was initialized.");
     }
 }

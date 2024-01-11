@@ -53,15 +53,25 @@ public abstract class GuiInventoryMixin extends GuiContainer {
 	@Inject(method = "drawGuiContainerBackgroundLayer", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/GL11;glEnable(I)V", ordinal = 0))
 	public void bindGuiTexture(float f, CallbackInfo ci) {
 		Minecraft minecraft = Minecraft.getMinecraft(this);
-		int texture_id = minecraft.renderEngine.getTexture("assets/accessory_api/inventory.png");
-		minecraft.renderEngine.bindTexture(texture_id);
 
 		int startX = (width - xSize) / 2;
 		int startY = (height - ySize) / 2;
+		int texture_id;
+
+		// force compatibility with the aether mod, which must load its assets from a jar for legal reasons *sigh*
+		if (AccessoryApiMain.aether_loaded) {
+			texture_id = minecraft.renderEngine.getTexture("assets/aether/gui/inventory.png");
+			minecraft.renderEngine.bindTexture(texture_id);
+			drawTexturedModalRect(startX, startY, INV_U, INV_V, 175, 165);
+			return;
+		}
+
+		texture_id = minecraft.renderEngine.getTexture("assets/accessory_api/inventory.png");
+		minecraft.renderEngine.bindTexture(texture_id);
+
 		drawTexturedModalRect(startX + CORNER_INSET,startY + CORNER_INSET,INV_U, INV_V, INV_W, INV_H);
 
 		drawTexturedModalRect(startX + CRAFT_X + CORNER_INSET, startY + CORNER_INSET, CRAFT_U, CRAFT_V, CRAFT_W, CRAFT_H);
-
 
 		// i just guessed this lol
 		int FIRST_ACCESSORY_SLOT_OFFSET = INV_W / 2 - 16;
@@ -76,7 +86,6 @@ public abstract class GuiInventoryMixin extends GuiContainer {
 				startY + CORNER_INSET + SLOT_WIDTH * row,
 				SLOT_U, SLOT_V, SLOT_W, SLOT_H);
 		}
-
 	}
 
 	// move the player 'doll' over to the left some
