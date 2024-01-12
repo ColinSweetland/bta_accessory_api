@@ -18,7 +18,7 @@ public class EntityPlayerMixin {
 			ItemStack item = player.inventory.armorInventory[i];
 			if (item != null) {
 				if (item.getItem() instanceof TickableWhileWorn) {
-					ItemStack newItem = ((TickableWhileWorn) item.getItem()).tickWhileWorn(player, item);
+					ItemStack newItem = ((TickableWhileWorn) item.getItem()).tickWhileWorn(player, item, i);
 					if (newItem != item) {
 						player.inventory.armorInventory[i] = newItem;
 					}

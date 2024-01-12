@@ -46,7 +46,6 @@ public abstract class ContainerPlayerMixin extends Container {
 	private void addSlots(InventoryPlayer inv, boolean par2, CallbackInfo ci) {
 		// 36 default + 4 default armor
 		int slotnum = 40;
-		assert(this.getSlot(36) instanceof SlotArmor);
 
 		// slot 5 is the helmet slot, we will place the accessories relative to it.
 		int startX = this.getSlot(5).xDisplayPosition;
