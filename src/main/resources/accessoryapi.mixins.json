@@ -4,13 +4,19 @@
   "package": "csweetla.accessoryapi.impl.mixins",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "CommandsMixin",
     "ContainerPlayerMixin",
+    "EntityLivingMixin",
     "EntityPlayerMixin",
-    "InventoryPlayerMixin"
+    "InventoryPlayerMixin",
+    "itemFoodMixin"
   ],
   "client": [
+    "GuiInventoryCreativeMixin",
     "GuiInventoryMixin",
-    "GuiInventoryCreativeMixin"
+    "HealthBarComponentMixin",
+    "MinecraftMixin",
+    "HudComponentMixin"
   ],
   "injectors": {
     "defaultRequire": 1
