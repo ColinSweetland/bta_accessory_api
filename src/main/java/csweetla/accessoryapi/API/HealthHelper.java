@@ -30,4 +30,13 @@ public class HealthHelper {
 	public static void addExtraHealth(EntityPlayer player, int amount) {
 		((VariableHealthPlayer) player).addExtraHP(amount);
 	}
+
+	/**
+	 * Get the total/max health of a player (20 + extra health)
+	 * @param player the player
+	 * @return total health including base 20 + extra health
+	 */
+	public static int getTotalHealth(EntityPlayer player) {
+		return 20 + getExtraHealth(player);
+	}
 }
