@@ -1,5 +1,8 @@
 package csweetla.accessoryapi.impl.mixins;
 
+import csweetla.accessoryapi.API.Accessory;
+import net.minecraft.core.InventoryAction;
+import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.player.inventory.Container;
 import net.minecraft.core.player.inventory.ContainerPlayer;
 import net.minecraft.core.player.inventory.InventoryCrafting;
@@ -14,6 +17,9 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import csweetla.accessoryapi.AccessoryApiMain;
 import csweetla.accessoryapi.impl.AccessorySlot;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.List;
 
 @Mixin(value = ContainerPlayer.class, remap = false)
 public abstract class ContainerPlayerMixin extends Container {
@@ -45,6 +51,8 @@ public abstract class ContainerPlayerMixin extends Container {
 	@Inject(method = "<init>(Lnet/minecraft/core/player/inventory/InventoryPlayer;Z)V", at = @At(value = "TAIL"))
 	private void addSlots(InventoryPlayer inv, boolean par2, CallbackInfo ci) {
 		// 36 default + 4 default armor
+		// wait but what about the crafting inventory?? I forgot about that???
+		// but it crashes if I change it!!!
 		int slotnum = 40;
 
 		// slot 5 is the helmet slot, we will place the accessories relative to it.
@@ -58,6 +66,16 @@ public abstract class ContainerPlayerMixin extends Container {
 			int col_num = (i / 4) + 1;
 			addSlot(new AccessorySlot(inv, slotnum++,startX + slot_w * col_num, startY + slot_w * row_num, AccessoryApiMain.accessorySlotKeys.get(i)));
 		}
+	}
 
+	@Inject(method = "getTargetSlots", at = @At(value = "RETURN"), cancellable = true)
+	public void getTargetSlots(InventoryAction action, Slot slot, int target, EntityPlayer player, CallbackInfoReturnable<List<Integer>> cir) {
+		// in the MAIN inventory (not including armor or crafting slots)
+		// IDK what target does, but it always seems to be 0 for me
+		if (slot.id >= 9 && slot.id <= 44 && slot.getStack() != null && slot.getStack().getItem() instanceof Accessory && target == 0) {
+			List<Integer> target_slots = this.getSlots(45, AccessoryApiMain.accessorySlotKeys.size(), false);
+			target_slots.addAll(cir.getReturnValue());
+			cir.setReturnValue(target_slots);
+		}
 	}
 }
