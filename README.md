@@ -1,3 +1,7 @@
+# THIS MOD IS UNFINISHED AND WON'T BE UPDATED
+
+It has been integrated into the as of now WIP bta aether port. I'm only leaving it up in case anyone wants to reference this code.
+
 # BTA Accessory Api [WIP BETA]
 
 A library which other 'Better than Adventure!' mods can use to add accessories and accessory slots, in a hopefully compatible way.
